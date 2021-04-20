@@ -3,13 +3,7 @@ package tian;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
-import tian.timeconverter.Record;
-import tian.timeconverter.RecordService;
-import tian.timeconverter.TimeConverterService;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import tian.record.RecordService;
 
 import javax.inject.Inject;
 
@@ -28,6 +22,7 @@ public class Main {
         @Override
         public int run(String... args) throws Exception {
             System.out.println("Do startup logic here");
+            service.initialRecords();
             Quarkus.waitForExit();
             return 0;
         }

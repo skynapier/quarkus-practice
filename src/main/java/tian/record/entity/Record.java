@@ -1,11 +1,11 @@
-package tian.timeconverter;
-
-
+package tian.record.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
+import java.time.Instant;
 
 
 @Schema(description = "Record representation")
@@ -13,16 +13,19 @@ import javax.persistence.*;
 public class Record extends PanacheEntityBase {
 
     @Id
-//    @SequenceGenerator(
-//            name = "personSequence",
-//            sequenceName = "person_id_seq",
-//            allocationSize = 1,
-//            initialValue = 4)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personSequence")
+    @JsonbProperty("ID")
     public String id;
 
     @Schema(required = true)
-    public String test;
+    public Float lat;
+
+    @Schema(required = true)
+    public Float lng;
+
+    @Schema(required = true)
+    public Instant timstamp;
+
+
 
 
 }

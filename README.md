@@ -1,9 +1,5 @@
 # time-converter project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
@@ -45,10 +41,26 @@ You can then execute your native executable with: `./target/time-converter-1.0.0
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
 
+## Postgresql DB
+configuration file in docker-compose.yml
+
+``` 
+docker-compose up
+```
+
+
 ## Provided examples
 
-### RESTEasy JAX-RS example
-
-REST is easy peasy with this Hello World RESTEasy resource.
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+1.  Get All Record from 'resources/timezone.csv'
+![](examples/get-all.png)
+    Responses:
+    ![](examples/get-all-responses.png)
+    
+2. Get Record by id
+   Responses:
+   ![](examples/get-by-id.png)
+   
+3. API Time Converter
+   Responses:
+   ![](examples/api-time-converter.png)
+    
