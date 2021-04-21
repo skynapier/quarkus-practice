@@ -41,13 +41,12 @@ public class RecordService {
             while ((line = br.readLine()) != null) {
                 String[] values = line.split("[,]");
                 String id = values[0];
-                Instant timeStamp = Instant.ofEpochSecond(Long.parseLong(values[1]));
                 float lat = Float.parseFloat(values[3]);
                 float lng = Float.parseFloat(values[2]);
 
                 Record rec = new Record();
                 rec.id = id;
-                rec.timstamp = timeStamp;
+                rec.timeStamp = Long.parseLong(values[1]);
                 rec.lat = lat;
                 rec.lng = lng;
 

@@ -30,11 +30,9 @@ public class TimeConverterResource {
     @APIResponse(responseCode = "200", content = @Content(mediaType = MediaType
             .APPLICATION_JSON ))
     @APIResponse(responseCode = "406", description = "Wrong Input ")
-    public Response allParams(@NotNull @QueryParam("timestamp") String timestamp,
+    public Response allParams(@NotNull @QueryParam("timestamp") Long timeStamp,
                               @NotNull @QueryParam("lat") float lat,
                               @NotNull @QueryParam("lng") float lng){
-
-        Instant timeStamp = Instant.ofEpochSecond(Long.parseLong(timestamp));
 
         if(timeStamp != null){
             String timeStampConverted = timeConverterService.timeParser(timeStamp, lat, lng);

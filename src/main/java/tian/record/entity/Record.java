@@ -13,7 +13,6 @@ import java.time.Instant;
 public class Record extends PanacheEntityBase {
 
     @Id
-    @JsonbProperty("ID")
     public String id;
 
     @Schema(required = true)
@@ -23,9 +22,6 @@ public class Record extends PanacheEntityBase {
     public Float lng;
 
     @Schema(required = true)
-    public Instant timstamp;
-
-
-
+    public Long timeStamp;
 
 }

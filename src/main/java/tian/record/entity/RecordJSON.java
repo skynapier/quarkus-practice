@@ -1,9 +1,11 @@
 package tian.record.entity;
 
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import javax.json.bind.annotation.JsonbProperty;
 
-
+@Schema
 public class RecordJSON {
 
     @JsonbProperty("ID")
@@ -24,6 +26,5 @@ public class RecordJSON {
         this.lng = lng;
         this.timeStampString = timeStampString;
     }
-
 
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 @ApplicationScoped
 public class TimeConverterService {
 
-    public String timeParser(Instant timeStamp, float lat, float lng){
+    public String timeParser(Long timeStamp, float lat, float lng){
         TimeZoneEngine engine = TimeZoneEngine.initialize();
         Optional<ZoneId> possibleZoneId = engine.query(lat, lng);
 
@@ -18,7 +18,7 @@ public class TimeConverterService {
             DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm z Z")
                     .withZone( possibleZoneId.get() );
 
-            return DATE_TIME_FORMATTER.format(timeStamp);
+            return DATE_TIME_FORMATTER.format(Instant.ofEpochSecond(timeStamp));
         }else{
             return null;
         }
