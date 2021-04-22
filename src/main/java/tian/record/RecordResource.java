@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.logging.Logger;
 import tian.record.entity.Record;
 import tian.record.entity.RecordJSON;
@@ -17,17 +18,16 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.*;
 
 @Path("/api/record")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Tag(name = "Record Endpoint")
 public class RecordResource {
 
     @Inject
@@ -41,6 +41,7 @@ public class RecordResource {
 
     @GET
     @Path("/all")
+    @Operation(summary = "Returns all Records")
     @APIResponse(responseCode = "200", content = @Content(mediaType = MediaType
             .APPLICATION_JSON, schema = @Schema(implementation = RecordJSON.class, type = SchemaType
             .ARRAY)))
@@ -70,7 +71,7 @@ public class RecordResource {
     @APIResponse(responseCode = "200", content = @Content(mediaType = MediaType
             .APPLICATION_JSON, schema = @Schema(implementation = RecordJSON.class, type = SchemaType
             .ARRAY)))
-    @APIResponse(responseCode = "204", description = "No records")
+    @APIResponse(responseCode = "404", description = "The record is not found for the given identifier")
     public Response getRecord(@Parameter(description = "Record identifier", required = true) @PathParam("id") String id ) {
         Optional<Record> record = recordService.findRecordById(id);
 
@@ -95,7 +96,7 @@ public class RecordResource {
     @APIResponse(responseCode = "201", content = @Content(mediaType = MediaType
             .APPLICATION_JSON, schema = @Schema(implementation = Record.class, type = SchemaType
             .ARRAY)))
-
+    @APIResponse(responseCode = "400", description = "The record for the given identifier is already exist")
     public Response createRecord(@RequestBody(required = true, content = @Content(mediaType = MediaType
             .APPLICATION_JSON, schema = @Schema(implementation = Record.class)))
                                      @Valid Record record, @Context UriInfo uriInfo){
@@ -113,7 +114,50 @@ public class RecordResource {
 
     }
 
+    @PUT
+    @Operation(summary = "Update an Valid Record")
+    @APIResponse(responseCode = "200", content = @Content(mediaType = MediaType
+            .APPLICATION_JSON, schema = @Schema(implementation = Record.class, type = SchemaType
+            .ARRAY)))
+    @APIResponse(responseCode = "404", description = "The record is not found for the given identifier")
+    public Response updateRecord(@RequestBody(required = true, content = @Content(mediaType = MediaType
+            .APPLICATION_JSON, schema = @Schema(implementation = Record.class)))
+                                 @Valid Record record, @Context UriInfo uriInfo){
 
+        Optional<Record> recordExist = recordService.findRecordById(record.id);
+
+        if(recordExist.isPresent()){
+            record = recordService.updateRecord(record);
+            LOGGER.debug("New record created with URI " + record);
+            return Response.ok(record).build();
+        }else{
+            return Response.status(NOT_FOUND).build();
+        }
+
+
+    }
+
+    @DELETE
+    @APIResponse(responseCode = "204", description = "The record has been successfully deleted")
+    @APIResponse(responseCode = "404", description = "The record is not found for the given identifier")
+    @Path("/{id}")
+    @Operation(summary = "Deletes an existing book")
+    public  Response deleteRecord(@Parameter(description = "Record identifier"
+            ,required = true) @PathParam("id") String id ){
+
+        Optional<Record> recordExist = recordService.findRecordById(id);
+
+        if(recordExist.isPresent()){
+            recordService.deleteRecord(id);
+            LOGGER.debug("Record Delete with " + id);
+            return Response.noContent().build();
+
+        }else{
+            return Response.status(NOT_FOUND).build();
+
+        }
+
+    }
 
 
 }

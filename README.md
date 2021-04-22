@@ -46,10 +46,16 @@ configuration file in docker-compose.yml
 
 ``` 
 docker-compose up
+docker exec -it pg_container bash
+psql --host=pg_container --dbname=test_db --username=root
 ```
 
 
 ## Provided examples
+
+### The Whole API Outlook
+![](examples/api-outlook.png)
+
 
 1.  Get All Record from 'resources/timezone.csv'
 ![](examples/get-all.png)
