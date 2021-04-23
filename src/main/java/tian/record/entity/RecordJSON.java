@@ -20,6 +20,8 @@ public class RecordJSON {
     @JsonbProperty("TIME")
     public String timeStampString;
 
+    public RecordJSON(){}
+
     public RecordJSON(String id, Float lat, Float lng, String timeStampString){
         this.id = id;
         this.lat = lat;

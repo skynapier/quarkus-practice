@@ -109,7 +109,7 @@ public class RecordResource {
             UriBuilder builder = uriInfo.getAbsolutePathBuilder().path(record.id);
             LOGGER.debug("New record created with URI " + builder.build().toString());
 
-            return Response.ok(record).build();
+            return Response.status(201).build();
         }
 
     }

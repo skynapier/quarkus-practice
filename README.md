@@ -45,9 +45,10 @@ If you want to learn more about building native executables, please consult http
 configuration file in docker-compose.yml
 
 ``` 
-docker-compose up
+docker-compose -f docker-compose.yaml up
 docker exec -it pg_container bash
 psql --host=pg_container --dbname=test_db --username=root
+docker-compose -f docker-compose.yaml down
 ```
 
 
