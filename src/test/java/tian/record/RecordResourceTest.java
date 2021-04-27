@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 import tian.Database;
-import tian.record.entity.Record;
+import tian.entity.Record;
 
 
 import javax.ws.rs.core.HttpHeaders;

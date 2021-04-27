@@ -8,9 +8,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.logging.Logger;
-import tian.record.entity.Record;
-import tian.record.entity.RecordJSON;
-import tian.timeconverter.entity.TimeConverter;
+import tian.entity.TimeConverter;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -20,8 +18,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.time.Instant;
-
 
 
 @Path("/api/time-converter")

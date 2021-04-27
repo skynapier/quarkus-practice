@@ -9,12 +9,13 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.logging.Logger;
-import tian.record.entity.Record;
-import tian.record.entity.RecordJSON;
+import tian.entity.Record;
+
 import tian.timeconverter.TimeConverterService;
 
-
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -43,25 +44,31 @@ public class RecordResource {
     @Path("/all")
     @Operation(summary = "Returns all Records")
     @APIResponse(responseCode = "200", content = @Content(mediaType = MediaType
-            .APPLICATION_JSON, schema = @Schema(implementation = RecordJSON.class, type = SchemaType
+            .APPLICATION_JSON, schema = @Schema(implementation = Record.class, type = SchemaType
             .ARRAY)))
     @APIResponse(responseCode = "204", description = "No records")
     public Response getAllRecords() {
         List<Record> records = recordService.findAllRecords();
-
-        List<RecordJSON> recordJSONS = new ArrayList<>();
+        List<JsonObject> recordJSONS = new ArrayList<>();
 
         for(Record record: records){
-            String id = record.id;
             float lat = record.lat;
             float lng = record.lng;
             String timeStampString = timeConverterService.timeParser(record.timeStamp, lat, lng);
-            RecordJSON recordJSON = new RecordJSON(id, lat, lng, timeStampString);
+
+            JsonObject recordJSON = Json.createObjectBuilder()
+                    .add("ID", record.id)
+                    .add("Latitude", lat)
+                    .add("Longitude", lng)
+                    .add("TIME", timeStampString)
+                    .build();
+
 
             recordJSONS.add(recordJSON);
         }
         LOGGER.debug("Total number of books " +records);
-        return Response.ok(recordJSONS).build();
+
+        return Response.ok(recordJSONS, MediaType.APPLICATION_JSON_TYPE).build();
 
     }
 
@@ -69,7 +76,7 @@ public class RecordResource {
     @Path("/{id}")
     @Operation(summary = "Returns a Record for a given identifier")
     @APIResponse(responseCode = "200", content = @Content(mediaType = MediaType
-            .APPLICATION_JSON, schema = @Schema(implementation = RecordJSON.class, type = SchemaType
+            .APPLICATION_JSON, schema = @Schema(implementation = Record.class, type = SchemaType
             .ARRAY)))
     @APIResponse(responseCode = "404", description = "The record is not found for the given identifier")
     public Response getRecord(@Parameter(description = "Record identifier", required = true) @PathParam("id") String id ) {
@@ -81,9 +88,15 @@ public class RecordResource {
             float lat = record.get().lat;
             float lng = record.get().lng;
             String timeStampString = timeConverterService.timeParser(record.get().timeStamp, lat, lng);
-            RecordJSON recordJSON = new RecordJSON(id, lat, lng, timeStampString);
 
-            return Response.ok(recordJSON).build();
+            JsonObject json = Json.createObjectBuilder()
+                    .add("ID", record.get().id)
+                    .add("Latitude", lat)
+                    .add("Longitude", lng)
+                    .add("TIME", timeStampString)
+                    .build();
+
+            return Response.ok(json, MediaType.APPLICATION_JSON).build();
         } else{
             LOGGER.debug("No record found with id " + id);
             return Response.status(NOT_FOUND).build();

@@ -1,4 +1,4 @@
-package tian.timeconverter.entity;
+package tian.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
