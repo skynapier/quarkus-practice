@@ -1,4 +1,4 @@
-package tian;
+package tian.infrastructure;
 
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 import org.testcontainers.containers.PostgreSQLContainer;

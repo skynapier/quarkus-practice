@@ -113,6 +113,7 @@ public class RecordResource {
     public Response createRecord(@RequestBody(required = true, content = @Content(mediaType = MediaType
             .APPLICATION_JSON, schema = @Schema(implementation = Record.class)))
                                      @Valid Record record, @Context UriInfo uriInfo){
+        System.out.println("test on post");
         Optional<Record> recordExist = recordService.findRecordById(record.id);
 
         if(recordExist.isPresent()){

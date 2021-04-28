@@ -11,6 +11,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 
@@ -21,18 +22,22 @@ public class Record extends PanacheEntityBase {
 
     @Id
     @JsonbProperty("ID")
+    @NotNull(message = "Please enter ID")
     public String id;
 
     @Schema(required = true)
     @JsonbProperty("Latitude")
+    @NotNull(message = "Please enter Latitude")
     public Float lat;
 
     @Schema(required = true)
+    @NotNull(message = "Please enter Longitude")
     @JsonbProperty("Longitude")
     public Float lng;
 
-    @JsonIgnore
-    @JsonbProperty("TIME")
+//    @JsonIgnore
+//    @JsonbProperty("TIME")
+    @NotNull(message = "Please enter timestamp")
     @Schema(required = true)
     public Long timeStamp;
 

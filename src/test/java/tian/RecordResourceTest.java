@@ -1,8 +1,9 @@
-package tian.record;
+package tian;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 
+import org.jboss.logging.Logger;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,9 @@ import static javax.ws.rs.core.Response.Status.CREATED;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
-import tian.Database;
+import tian.infrastructure.Database;
 import tian.entity.Record;
+import tian.record.RecordResource;
 
 
 import javax.ws.rs.core.HttpHeaders;
@@ -32,6 +34,7 @@ public class RecordResourceTest {
     private static final Float DEFAULT_LNG = 151.2099f;
     private static final String DEFAULT_TIME = "16/04/2017 10:04 GMT+10:00 +1000";
 
+    private static final Logger LOGGER = Logger.getLogger(RecordResourceTest.class);
 
     @Test
     @Order(1)
@@ -63,7 +66,7 @@ public class RecordResourceTest {
     void shouldAddAnItem() {
 
         Record  rec = new Record();
-        rec.id = "test";
+        rec.id = "testId";
         rec.timeStamp = DEFAULT_TIMESTAMP;
         rec.lat = DEFAULT_LAT;
         rec.lng = DEFAULT_LNG;
@@ -78,10 +81,10 @@ public class RecordResourceTest {
                 .statusCode(CREATED.getStatusCode());
 
         given().when()
-                .get("/api/record/test")
+                .get("/api/record/testId")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .body("ID", equalTo("test"),
+                .body("ID", equalTo("testId"),
                         "TIME", equalTo(DEFAULT_TIME),
                         "Latitude", equalTo(DEFAULT_LAT),
                         "Longitude", equalTo(DEFAULT_LNG),
