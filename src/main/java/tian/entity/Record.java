@@ -1,18 +1,13 @@
 package tian.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
 import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
 
 
 @Schema(description = "Record representation")
@@ -35,8 +30,6 @@ public class Record extends PanacheEntityBase {
     @JsonbProperty("Longitude")
     public Float lng;
 
-//    @JsonIgnore
-//    @JsonbProperty("TIME")
     @NotNull(message = "Please enter timestamp")
     @Schema(required = true)
     public Long timeStamp;

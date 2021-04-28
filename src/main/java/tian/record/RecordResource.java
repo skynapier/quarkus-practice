@@ -63,7 +63,6 @@ public class RecordResource {
                     .add("TIME", timeStampString)
                     .build();
 
-
             recordJSONS.add(recordJSON);
         }
         LOGGER.debug("Total number of books " +records);

@@ -11,6 +11,8 @@ import org.jboss.logging.Logger;
 import tian.entity.TimeConverter;
 
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -43,9 +45,11 @@ public class TimeConverterResource {
         if(timeStamp != null){
             String timeStampConverted = timeConverterService.timeParser(timeStamp, lat, lng);
 
-            String response = String.format("{\"time\": \"%s\" }", timeStampConverted);
+            JsonObject json = Json.createObjectBuilder()
+                    .add("time", timeStampConverted)
+                    .build();
 
-            return Response.status(200).entity(response).type(MediaType.APPLICATION_JSON)
+            return Response.status(200).entity(json.toString()).type(MediaType.APPLICATION_JSON)
                     .build();
 
         }
@@ -69,10 +73,11 @@ public class TimeConverterResource {
             String timeStampConverted = timeConverterService.timeParser(timeConverter.timeStamp
                     ,timeConverter.lat ,timeConverter.lng);
 
-            String response = String.format("{\"time\": \"%s\" }", timeStampConverted);
-
-            return Response.status(200).entity(response).type(MediaType.APPLICATION_JSON)
+            JsonObject json = Json.createObjectBuilder()
+                    .add("time", timeStampConverted)
                     .build();
+
+            return Response.status(200).entity(json.toString()).type(MediaType.APPLICATION_JSON).build();
 
         }
 
