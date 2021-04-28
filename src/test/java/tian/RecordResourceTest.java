@@ -18,6 +18,8 @@ import tian.entity.Record;
 import tian.record.RecordResource;
 
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
@@ -65,14 +67,22 @@ public class RecordResourceTest {
     @Order(3)
     void shouldAddAnItem() {
 
-        Record  rec = new Record();
-        rec.id = "testId";
-        rec.timeStamp = DEFAULT_TIMESTAMP;
-        rec.lat = DEFAULT_LAT;
-        rec.lng = DEFAULT_LNG;
+//        Record  rec = new Record();
+//        rec.id = "testId";
+//        rec.timeStamp = DEFAULT_TIMESTAMP;
+//        rec.lat = DEFAULT_LAT;
+//        rec.lng = DEFAULT_LNG;
+
+        JsonObject json = Json.createObjectBuilder()
+                .add("ID", "testId")
+                .add("Latitude", DEFAULT_LAT)
+                .add("Longitude", DEFAULT_LNG)
+                .add("timeStamp", DEFAULT_TIMESTAMP)
+                .build();
+
 
         given()
-                .body(rec)
+                .body(json.toString())
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
                 .when()

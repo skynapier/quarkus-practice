@@ -133,7 +133,7 @@ public class RecordResource {
     @APIResponse(responseCode = "200", content = @Content(mediaType = MediaType
             .APPLICATION_JSON, schema = @Schema(implementation = Record.class, type = SchemaType
             .ARRAY)))
-    @APIResponse(responseCode = "404", description = "The record is not found for the given identifier")
+    @APIResponse(responseCode = "204", description = "The record is not found for the given identifier")
     public Response updateRecord(@RequestBody(required = true, content = @Content(mediaType = MediaType
             .APPLICATION_JSON, schema = @Schema(implementation = Record.class)))
                                  @Valid Record record, @Context UriInfo uriInfo){
@@ -145,7 +145,7 @@ public class RecordResource {
             LOGGER.debug("New record created with URI " + record);
             return Response.ok(record).build();
         }else{
-            return Response.status(NOT_FOUND).build();
+            return Response.status(NO_CONTENT).build();
         }
 
 
