@@ -1,16 +1,15 @@
 package tian.record;
 
+import org.jboss.logging.Logger;
 import tian.entity.Record;
+import tian.websockets.ChatApplicationLifeCycle;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,7 @@ public class RecordService {
     @Inject
     EntityManager em;
 
+    private static final Logger LOGGER = Logger.getLogger(RecordService.class);
 
     public Record persistRecord(@Valid Record record){
         em.persist(record);
@@ -31,8 +31,8 @@ public class RecordService {
     public void initialRecords(){
 
         String fileName = this.getClass().getResource("/timezone.csv").getFile();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        System.out.println(fileName);
+        try ( BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/timezone.csv")))) {
 
             br.readLine();
             String line;
@@ -60,6 +60,8 @@ public class RecordService {
 
     @Transactional(Transactional.TxType.SUPPORTS)
     public List<Record> findAllRecords() {
+
+        LOGGER.debug("works here");
         return Record.listAll();
     }
 

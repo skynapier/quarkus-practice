@@ -65,7 +65,7 @@ public class RecordResource {
 
             recordJSONS.add(recordJSON);
         }
-        LOGGER.debug("Total number of books " +records);
+        LOGGER.debug("Total number of records " +records);
 
         return Response.ok(recordJSONS, MediaType.APPLICATION_JSON_TYPE).build();
 
